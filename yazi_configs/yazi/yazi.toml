@@ -67,11 +67,23 @@ typst_compile = [
 	{ run = 'nohup typst compile  "$@" > /dev/null', desc = "Compile the file", for = "linux" },
 ]
 
+video_play = [
+	{ run = 'nohup vlc "$@" > /dev/null', desc = "Play video", for = "linux" },
+]
+
+open_in_folder = [
+	{ run = 'nohup nautilus "$@" > /dev/null', desc = "Show in folder", for = "linux" },
+]
+
+zip = [
+	{ run = 'nohup zip -r a.zip "$@" > /dev/null', desc = "zip files", for = "linux" },
+]
+
 
 [open]
 rules = [
 	# Folder
-	{ name = "*/", use = [ "edit", "open", "reveal" ] },
+	{ name = "*/", use = [ "edit", "open", "reveal", "open_in_folder", "zip"] },
     # typst
     { name = "*.typ", use = ["typst_compile", "edit", "open"]},
 	# Text
@@ -79,7 +91,8 @@ rules = [
 	# Image
 	{ mime = "image/*", use = [ "open", "reveal" ] },
 	# Media
-	{ mime = "{audio,video}/*", use = [ "play", "reveal" ] },
+    # { mime = "{audio,video}/*", use = [ "play", "reveal" ] },
+    { mime = "{audio,video}/*", use = [ "video_play", "play", "reveal" ] },
 	# Archive
 	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = [ "extract", "reveal" ] },
 	# JSON
@@ -90,7 +103,7 @@ rules = [
     # PDF
     { mime = "application/pdf", use = ["pdf_sioyek", "pdf_evince"]},
 	# Fallback
-	{ name = "*", use = [ "open", "reveal" ] },
+	{ name = "*", use = [ "open", "reveal", "open_in_folder", "zip"] },
 ]
 
 [tasks]
