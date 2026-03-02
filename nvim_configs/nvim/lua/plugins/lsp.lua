@@ -66,7 +66,15 @@ return {
                         plugins = {
                             pycodestyle = {
                                 enabled = true,
-                                ignore = {"E501", "W293", "E402", "E261"}
+                                ignore = {
+                                    "E501",
+                                    "W293",
+                                    "E402",
+                                    "E261",
+                                    "E266", -- disable too many #s in the comment
+                                    "E741", -- disable ambiguous name error linter
+                                    "W503", -- disable line break before binary operator
+                                }
                             }
                         }
                     }
