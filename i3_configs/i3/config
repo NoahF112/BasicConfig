@@ -62,7 +62,7 @@ bindsym $mod+d exec --no-startup-id "rofi -show combi -combi-modes drun,run -mod
 # bindsym $mod+shift+d exec "rofi -modi drun,run -show drun"
 bindsym $mod+shift+d exec --no-startup-id dmenu_run
 
-bindsym $mod+Tab exec rofi -show window
+# bindsym $mod+Tab exec rofi -show window
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
@@ -162,6 +162,9 @@ bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -280,8 +283,18 @@ exec --no-startup-id xinput set-prop "ETPS/2 Elantech Touchpad" "libinput Natura
 bindsym Print --release exec flameshot gui
 bindsym $mod+shift+s --release exec flameshot gui
 
-# config i3lock
-bindsym $mod+x exec /home/$USER/.config/scripts/lock
+# config scratchpad
+bindsym $mod+Shift+x move scratchpad
+bindsym $mod+x scratchpad show
+
+bindsym $mod+Shift+u  mark u,  move scratchpad
+bindsym $mod+u        [con_mark="u"]  scratchpad show
+bindsym $mod+Shift+i  mark i,  move scratchpad
+bindsym $mod+i        [con_mark="i"]  scratchpad show
+bindsym $mod+Shift+o  mark o,  move scratchpad
+bindsym $mod+o        [con_mark="o"]  scratchpad show
+bindsym $mod+Shift+p  mark p,  move scratchpad
+bindsym $mod+p        [con_mark="p"]  scratchpad show
 
 # config shortcut for chrome
 bindsym $mod+g exec google-chrome-stable

@@ -25,7 +25,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
 	group = "FileTypeIndent",
-	pattern = { "c", "cpp", "java", "html", "javascript", "typst" },
+	pattern = { "c", "cpp", "java", "html", "javascript", "typst", "xml" },
 	callback = function()
 		vim.bo.tabstop = 2
 		vim.bo.shiftwidth = 2

@@ -86,6 +86,10 @@ zip = [
 	{ run = 'nohup zip -r a.zip "$@" > /dev/null', desc = "zip files", for = "linux" },
 ]
 
+cp_img = [
+    { run = 'xclip -selection clipboard -t image/png -i < "$@"', desc = "copy image"}
+]
+
 [open]
 rules = [
 	# Folder
@@ -93,9 +97,9 @@ rules = [
 	# Typst
 	{ url = "*.typ", use = [ "typst_compile", "edit", "reveal" ] },
 	# Text
-	{ mime = "text/*", use = [ "edit", "reveal" ] },
+	{ mime = "text/*", use = [ "edit", "reveal"] },
 	# Image
-	{ mime = "image/*", use = [ "open", "reveal" ] },
+	{ mime = "image/*", use = [ "open", "reveal", "cp_img" ] },
 	# Media
 	{ mime = "{audio,video}/*", use = [ "video_play", "play", "reveal" ] },
 	# Archive
