@@ -27,6 +27,10 @@ vim.keymap.set({ "n", "v" }, "L", "$", { noremap = true, silent = true })
 vim.keymap.set({ "n", "v" }, "H", "^", { noremap = true, silent = true })
 vim.keymap.set("n", "K", "i<CR><Esc>k$", { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<Leader>t', ':exe "normal! 2\\<C-y>"<CR>', { noremap = true, silent = true })
+
+vim.keymap.set("n", "[t", "gT")
+vim.keymap.set("n", "]t", "gt")
+
 vim.keymap.set('n', '<Leader>t', ':lua vim.fn.winrestview({topline = vim.fn.line(".") - 2})<CR>', { noremap = true, silent = true, desc = "Set current line to be the third line of this screen" })
 
 
