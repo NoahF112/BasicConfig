@@ -26,37 +26,40 @@ return {
         end,
     },
     {
-        "neovim/nvim-lspconfig",
+        "https://github.com/neovim/nvim-lspconfig",
         lazy = false,
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-            -- lua_ls
-            vim.lsp.config("lua_ls", {
+            local lspconfig = require("lspconfig")
+
+            lspconfig.lua_ls.setup({
                 capabilities = capabilities,
                 settings = {
                     Lua = {
+                        -- diagnostics = {
+                        --     globals = {"vim"},
+                        -- },
                         workspace = {
-                            library = vim.api.nvim_get_runtime_file("", true),
+                            library = vim.api.nvim_get_runtime_file("", true), -- 添加 Neovim 的运行时路径
                         },
                     },
                 },
             })
-
-            -- clangd
-            vim.lsp.config("clangd", {
+            lspconfig.clangd.setup({
                 capabilities = capabilities,
                 cmd = {
                     "clangd",
-                    "--background-index",
-                    "--clang-tidy",
-                    "--header-insertion=never",
+                    "--background-index", -- Enable background indexing
+                    "--clang-tidy", -- Enable clang-tidy diagnostics
+                    "--header-insertion=never", -- Don't auto-insert headers
                 },
-                root_markers = { ".nvim/compile_commands.json", ".git" },
+                root_dir = lspconfig.util.root_pattern(".nvim/compile_commands.json", ".git"),
             })
-
-            -- pylsp
-            vim.lsp.config("pylsp", {
+            -- lspconfig.pyright.setup({
+            -- 	capabilities = capabilities,
+            -- })
+            lspconfig.pylsp.setup({
                 capabilities = capabilities,
                 settings = {
                     pylsp = {
@@ -67,110 +70,89 @@ return {
                                     "E501",
                                     "W293",
                                     "E402",
-                                    "E203",
-                                    "E221",
+                                    "E203", -- disable spaces before ':'
+                                    "E221", -- disable multiple spaces before operator
                                     "E261",
-                                    "E266",
-                                    "E741",
-                                    "W503",
-                                },
-                            },
-                        },
-                    },
-                },
+                                    "E266", -- disable too many #s in the comment
+                                    "E741", -- disable ambiguous name error linter
+                                    "W503", -- disable line break before binary operator
+                                }
+                            }
+                        }
+                    }
+                }
             })
-
-            -- julials
-            vim.lsp.config("julials", {
+            lspconfig.julials.setup({
                 capabilities = capabilities,
                 julia_env_path = "/home/liwei/.juliaup/bin/julia",
             })
-
-            -- cmake
-            vim.lsp.config("cmake", {
+            lspconfig.cmake.setup({
                 capabilities = capabilities,
             })
-
-            -- texlab
-            vim.lsp.config("texlab", {
+            -- lspconfig.ltex.setup({
+            -- 	capabilities = capabilities,
+            -- })
+            lspconfig.texlab.setup({
                 capabilities = capabilities,
                 settings = {
                     texlab = {
                         build = {
                             executable = "texpresso",
                             args = { "%f" },
-                            onSave = false,
+                            onSave = false
                         },
                         chktex = {
                             onOpenAndSave = true,
                             onEdit = true,
                         },
                         diagnosticsDelay = 300,
-                    },
-                },
+                    }
+                }
             })
-
-            -- ast_grep
-            vim.lsp.config("ast_grep", {
+            lspconfig.ast_grep.setup({
                 capabilities = capabilities,
             })
-
-            -- rust_analyzer
-            vim.lsp.config("rust_analyzer", {
-                capabilities = capabilities,
+            lspconfig.rust_analyzer.setup({
+                -- Server-specific settings. See `:help lspconfig-setup`
                 on_attach = function(client, bufnr)
                     client.server_capabilities.semanticTokensProvider = nil
                     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
                 end,
+                capabilities = capabilities,
                 settings = {
                     ["rust-analyzer"] = {},
                 },
             })
-
-            -- html
-            vim.lsp.config("html", {
+            -- lspconfig.eslint.setup({
+            -- 	on_attach = function(client, bufnr)
+            -- 		-- disabele formmater
+            -- 		client.server_capabilities.documentFormattingProvider = false
+            -- 	end,
+            -- 	capabilities = capabilities,
+            -- })
+            lspconfig.html.setup({
                 capabilities = capabilities,
             })
-
-            -- ts_ls
-            vim.lsp.config("ts_ls", {
+            lspconfig.ts_ls.setup({
+                -- on_attach = function(client, bufnr)
+                -- 	-- 禁用 tsserver 格式化功能，避免与其他格式化工具冲突（如 Prettier）
+                -- 	client.server_capabilities.documentFormattingProvider = false
+                -- end,
+                -- capabilities = capabilities, -- 支持 nvim-cmp
+            })
+            lspconfig.tinymist.setup({
                 capabilities = capabilities,
             })
-
-            -- tinymist
-            vim.lsp.config("tinymist", {
-                capabilities = capabilities,
-            })
-
-            -- verible
-            vim.lsp.config("verible", {
+            -- lspconfig.hdl_checker.setup({
+            --     capabilities=capabilities
+            -- })
+            lspconfig.verible.setup({
                 cmd = {
                     "verible-verilog-ls",
                     "verible-verilog-format",
                 },
+                --  capabilities = capabilities,
             })
-
-            -- Enable configured LSP servers
-            local servers = {
-                "lua_ls",
-                "clangd",
-                "pylsp",
-                "julials",
-                "cmake",
-                "texlab",
-                "ast_grep",
-                "rust_analyzer",
-                "html",
-                "ts_ls",
-                "tinymist",
-                "verible",
-            }
-
-            for _, server in ipairs(servers) do
-                vim.lsp.enable(server)
-            end
-
-            -- Keymaps
             vim.keymap.set("n", "<Leader>k", vim.lsp.buf.hover, {})
             vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
             vim.keymap.set("n", "gr", vim.lsp.buf.references, {})

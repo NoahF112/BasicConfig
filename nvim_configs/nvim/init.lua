@@ -1,5 +1,6 @@
 require("vim-opertion")
 require("lazy-config")
+-- vim.lsp.config("lazy-config")
 require("spell_checker")
 
 

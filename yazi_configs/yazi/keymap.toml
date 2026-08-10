@@ -129,9 +129,9 @@ keymap = [
 	{ on = [ "g", "<Space>" ], run = "cd --interactive", desc = "Jump interactively" },
 
 	{ on = [ "'", "d" ],       run = "cd ~/Downloads",   desc = "Goto ~/Downloads" },
-	{ on = [ "'", "p" ],       run = "cd /home/liwei/F/002Project",   desc = "Goto Project Folder" },
-	{ on = [ "'", "w" ],       run = "cd /home/liwei/F/001Work",   desc = "Goto Work Folder" },
-	{ on = [ "'", "S" ],       run = "cd /home/liwei/F/003LinuxSoftwares",   desc = "Goto Softwares" },
+	{ on = [ "'", "p" ],       run = "cd /home/noah/Liwei/Project",   desc = "Goto Project Folder" },
+	{ on = [ "'", "w" ],       run = "cd /home/noah/Liwei/Work",   desc = "Goto Work Folder" },
+	{ on = [ "'", "S" ],       run = "cd /home/noah/Liwei/Softwares",   desc = "Goto Softwares" },
 
 	# Tabs
 	{ on = "t", run = "tab_create --current", desc = "Create a new tab with CWD" },

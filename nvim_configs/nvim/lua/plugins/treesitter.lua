@@ -1,9 +1,9 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
+	branch = "master",
 	build = ":TSUpdate",
 	config = function()
-		local config = require("nvim-treesitter.configs")
-		config.setup({
+		require("nvim-treesitter.configs").setup({
 			ensure_installed = {
 				"c",
 				"lua",
@@ -15,23 +15,24 @@ return {
 				"javascript",
 				"typescript",
 				"html",
-				"markdown",
-				"markdown_inline",
+				"markdown",        -- 👈 Uncommented
+				"markdown_inline", -- 👈 Uncommented
 				"rust",
 			},
 			auto_install = true,
 			sync_install = false,
-			highlight = { enable = true },
-			indent = { enable = true },
-			additional_vim_regex_highlighting = false,
-			spellcheck = {
+
+			highlight = {
 				enable = true,
-				query = [[
-                    (comment) @spell
-                    (string) @spell
-                    (documentation) @spell
-                ]],
+				disable = { "markdown", "markdown_inline" }, -- Disables TS highlight for markdown
 			},
+
+			indent = {
+				enable = true,
+				disable = { "markdown" },
+			},
+
+			additional_vim_regex_highlighting = false,
 		})
 	end,
 }
